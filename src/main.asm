@@ -1,7 +1,7 @@
 [org 0x7C00]
 bits 16
 
-.TEXT
+.text
 main:
 
     mov bp, 0x8000 ; stack base
@@ -21,24 +21,28 @@ halt:
     jmp halt
 
 print_chr_scroll: ; bx must contain address of char, al must contain char ascii code
+                  ; does not push any registers - do it before calling
     add bx, 1
     int 0x10
     ret
 
 print_str: ; bx must contain address of string, the string should be zero terminated
+    pusha
+print_str_loop:
     mov al, [bx]
     cmp al, 0
-    je return
+    je return_print_str
     call print_chr_scroll
-    jmp print_str
-return:
+    jmp print_str_loop
+return_print_str:
+    popa
     ret
 
-
-
-.DATA
-os_str db "HomemadeOS",0
-version_str db " 0.1",0
+.data
+os_str: 
+    db "HomemadeOS",0
+version_str: 
+    db " 0.1",0
 
 
 
