@@ -20,8 +20,7 @@ halt:
     hlt
     jmp halt
 
-print_chr_scroll: ; bx must contain address of char, al must contain char ascii code
-                  ; does not push any registers - do it before calling
+print_chr_scroll: ; bx must contain address of char, al must contain char ascii code ; does not push any registers - do it before calling
     add bx, 1
     int 0x10
     ret
@@ -35,6 +34,18 @@ print_str_loop:
     call print_chr_scroll
     jmp print_str_loop
 return_print_str:
+    popa
+    ret
+
+print_hex: ; hex value is inside cx
+    pusha
+    mov dx, 0xF000
+print_hex_loop:
+    mov bx, cx
+    and cx, dx
+    shr dx, 4
+    ; to do: define an array containing hex digits, index it using the value in cx and call print_chr_scroll
+
     popa
     ret
 
