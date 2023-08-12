@@ -14,7 +14,7 @@ main:
     mov bx, version_str
     call print_str
     
-    mov dx, 0x2345
+    mov dx, 0x23af
     call print_hex
     mov dx, 0x2345
     call print_hex
@@ -24,6 +24,7 @@ main:
 halt:
     hlt
     jmp halt
+
 
 print_chr_scroll: ; bx must contain address of char, al must contain char ascii code 
     mov ah, 0x0e
@@ -44,7 +45,6 @@ return_print_str:
     ret
 
 
-
 print_hex:
     pusha
     mov cx, 4 ; counter
@@ -57,7 +57,7 @@ hex_loop:
     cmp ax, 0xa
     jl cont
 
-    add ax, 0x31 ; decimal 49 : difference between ascii a and 0
+    add ax, 0x27 ; decimal 49 : difference between ascii a and 0, since a will contain number > 10 already we must store 39
 
     cont:
     mov bx, hex_base
