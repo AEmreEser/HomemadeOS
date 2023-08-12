@@ -1,21 +1,18 @@
-[org 0x7C00] ; harcoded bios boot sector load address
+[org 0x7C00]
 bits 16
 
-out_char_scroll:   ; bx must contain the address of char, outputs byte @ bx, adds 1 tob
-    mov al, [bx] 
-    add bx, 1
-    int 0x10
-
-
-out_str:
-; strings will be \0 terminated
-
-
+.text
 main:
+
+    mov bp, 0x8000 ; stack base
+    mov sp, bp ; stack empty
 
     mov ah, 0x0e ; scrollign teletype - print chr and mov cursor interrupt spec for interrupt number 10
 
-    mov bx, osname
+    mov bx, os_str ; prints os name and version
+    call print_str
+    mov bx, version_str
+    call print_str
 
     mov al, [bx]
     add bx, 1
@@ -66,12 +63,42 @@ halt:
     hlt
     jmp halt
 
-osname:
-    db 'HomemadeOS'
-version:
-    db  ' 0.1',0    ; 0: termination character
+print_chr_scroll: ; bx must contain address of char, al must contain char ascii code ; does not push any registers - do it before calling
+    add bx, 1
+    int 0x10
+    ret
+
+print_str: ; bx must contain address of string, the string should be zero terminated
+    pusha
+print_str_loop:
+    mov al, [bx]
+    cmp al, 0
+    je return_print_str
+    call print_chr_scroll
+    jmp print_str_loop
+return_print_str:
+    popa
+    ret
+
+print_hex: ; hex value is inside cx
+    pusha
+    mov dx, 0xF000
+print_hex_loop:
+    mov bx, cx
+    and cx, dx
+    shr dx, 4
+    ; to do: define an array containing hex digits, index it using the value in cx and call print_chr_scroll
+
+    popa
+    ret
+
+.data
+os_str: 
+    db "HomemadeOS",0
+version_str: 
+    db " 0.1",0
+
 
 
 times 510-($-$$) db 0
-
 dw 0AA55h
