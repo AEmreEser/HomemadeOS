@@ -1,0 +1,10 @@
+#!/bin/bash
+
+make
+
+if [ -z "$1" ]; then
+    echo "no filename provided, defaulting to main_floppy.img";
+    qemu-system-x86_64  -drive file=build/main_floppy.img,format=raw,index=0,media=disk;
+else
+    qemu-system-x86_64 -drive file=build/${1},format=raw,index=0,media=disk;
+fi
