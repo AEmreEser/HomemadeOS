@@ -1,5 +1,4 @@
 #!/bin/bash
-
 make
 
 if [ -z "$1" ]; then
