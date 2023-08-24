@@ -1,3 +1,8 @@
+%ifndef _SWITCH_TO_PM_INC_
+%define _SWITCH_TO_PM_INC_
+
+%include "src/GDT.inc"
+
 [bits 16]
 
 switch_to_pm:
@@ -25,3 +30,5 @@ switch_to_pm:
     mov esp, ebp
 
     call begin_pm
+
+%endif

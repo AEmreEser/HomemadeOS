@@ -1,6 +1,10 @@
 %ifndef _READ_DISK_SECTORS_INC_
 %define _READ_DISK_SECTORS_INC_
 
+%include "src/print_str.inc"
+%include "src/print_hex_bios.inc"
+
+
 fail_disk_str: db "Disk Fail Code: ", 0
 
 read_disk_sectors:

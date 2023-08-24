@@ -1,3 +1,6 @@
+%ifndef _GDT_INC_
+%define _GDT_INC_
+
 ; GDT Table (Flat, only code and data segments)
 ; GDT descriptor (6 bytes)
 ; size 2 bytes
@@ -31,3 +34,6 @@ gdt_descriptor:
 ; put these in segment regs to address into segments
 CODE_SEG equ gdt_code - gdt_start
 DATA_SEG equ gdt_data - gdt_start
+
+
+%endif
