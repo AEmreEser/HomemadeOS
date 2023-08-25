@@ -3,6 +3,8 @@
 
 [bits 16]
 
+jmp end_str
+
 print_chr_scroll_bios: ; bx must contain address of char, al must contain char ascii code 
     mov ah, 0x0e
     int 0x10
@@ -46,5 +48,9 @@ print_string_pm_loop:
 print_string_pm_done:
     popa
     ret
+
+[bits 16]
+
+end_str:
 
 %endif

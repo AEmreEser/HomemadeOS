@@ -1,7 +1,6 @@
 %ifndef _SWITCH_TO_PM_INC_
 %define _SWITCH_TO_PM_INC_
 
-%include "src/GDT.inc"
 
 [bits 16]
 
@@ -28,7 +27,7 @@ switch_to_pm:
     mov gs, ax
     mov ebp, 0x90000
     mov esp, ebp
-
+    
     call begin_pm
 
 %endif

@@ -1,9 +1,10 @@
 %ifndef _PRINT_HEX_BIOS_INC_
 %define _PRINT_HEX_BIOS_INC_
 
-%include "src/print_str.inc"
 
 [bits 16]
+
+jmp end_hex
 
 print_hex_bios: ; dx must contain hex number (16 bits)
     pusha
@@ -47,7 +48,8 @@ print_hex_bios: ; dx must contain hex number (16 bits)
     ret
 ; #### PRINT HEX END ####
 
-
 hex_base: db "0x0000",0
+
+end_hex:
 
 %endif
