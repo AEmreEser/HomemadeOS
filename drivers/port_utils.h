@@ -5,14 +5,14 @@
 
 //** READ
 // PORTSIZE 8 bits
-unsigned char volatile inline read_byte(const unsigned char const port)  {
+unsigned char volatile inline read_byte(const unsigned int const port)  {
     unsigned char result;
     __asm__ volatile("in %%dx, %%al" : "=a" (result) : "d" (port));
     return result;
 }
 
 // PORTSIZE 16 bits
-unsigned short volatile inline read_word(const unsigned short const port)  {
+unsigned short volatile inline read_word(const unsigned int const port)  {
     unsigned short result;
     __asm__ volatile("in %%dx, %%ax" : "=a" (result) : "d" (port));
     return result;
@@ -28,12 +28,12 @@ unsigned int volatile inline read_dbl_word(const unsigned int const port)  {
 
 //**WRITE
 // PORTSIZE 8 bits
-void volatile inline write_byte(const unsigned char const port, const unsigned char data)  {
+void volatile inline write_byte(const unsigned int const port, const unsigned char data)  {
     __asm__ volatile("out %%al, %%dx" : : "a" (data), "d" (port));
 }
 
 // PORTSIZE 16 bits
-void volatile inline write_word(const unsigned short const port, const unsigned short data)  {
+void volatile inline write_word(const unsigned int const port, const unsigned short data)  {
     __asm__ volatile("out %%ax, %%dx" : : "a" (data), "d" (port));
 }
 

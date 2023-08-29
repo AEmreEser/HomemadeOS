@@ -17,6 +17,6 @@ $(build_dir)/kernel.bin: $(build_dir)/kernel.o $(src_dir)/kernel_head.asm
 $(build_dir)/bootloader.bin: $(src_dir)/bootloader.asm
 	$(asm) $< -f bin -o $@ -i $(inc_dir)/
 
-$(build_dir)/kernel.o: $(src_dir)/kernel.c $(drv_dir)/ # place include directories after kernel.c
-	gcc -c $< -I $(wordlist 2, 1000, $^) -o $@ -ffreestanding -fno-stack-protector -fno-pie -m32
+$(build_dir)/kernel.o: $(src_dir)/kernel.c $(drv_dir)/crtc_vga_driver.h $(drv_dir)/port_utils.h # place include directories after kernel.c
+	gcc -c $< -I $(drv_dir)/ -o $@ -ffreestanding -fno-stack-protector -fno-pie -m32
 
