@@ -20,7 +20,7 @@ Minimal 32 bit operating system for x86 architectures
  
  
 ## Screenshots
-![OS Banner Page](/screenshots/banner_page.png)
+![OS Banner Page](/screenshots/OS_banner_screen.png)
  
  
 ## Tools/Technologies
