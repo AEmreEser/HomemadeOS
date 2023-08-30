@@ -1,0 +1,11 @@
+os dev:
+keyboard interrupts - ps/s
+
+switch to a crosscompiler
+https://github.com/cfenollosa/os-tutorial/tree/master/11-kernel-crosscompiler
+
+PIC and interrupts
+https://web.archive.org/web/20160412174753/http://www.jamesmolloy.co.uk/tutorial_html/index.html
+
+Bran's kernel dev tutorials: 
+http://www.osdever.net/bkerndev/index.php

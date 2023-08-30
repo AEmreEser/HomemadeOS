@@ -31,29 +31,10 @@ extern void volatile inline write_dbl_word(const unsigned int port, const unsign
 #define CRTC_REG_DATA 0x3D5
 #define CRTC_REG_ADDR 0x3D4
 
-
 typedef unsigned short offset_t;
-typedef unsigned char dim_t; // screen dimension types
-
+typedef unsigned char dim_t; // dimension types
 
 unsigned char * const VID_MEM_PTR = (unsigned char *) (VID_MEM_ADDR);
-
-// // no location specification
-// volatile void print_str_vid_mem(const volatile char * str){
-// // str should be zero terminated
-
-//     volatile char ch_iter = *(str);
-//     volatile char i = (char) (0);
-
-//     while (ch_iter != '\0'){
-//         *((volatile char *) (VID_MEM_PTR + i * 2)) = ch_iter;
-//         *((volatile char *) (VID_MEM_PTR + i * 2 + 1)) = CL_GREEN_ON_BLACK; 
-//         i++;
-//         ch_iter = *(str + i * sizeof(char));
-//     }
-
-// }
-
 
 offset_t calculate_offset(dim_t row, dim_t col){
     // RETURNS THE OFFSET IN # OF CHARACTER SLOTS IN VID MEM - NOT NUMBER OF CHARS ON THE SCREEN
@@ -93,11 +74,9 @@ void disable_cursor(void){
 offset_t set_cursor(const offset_t offset){
     offset_t off = offset / 2; // vid mem offset to char # offset
     write_byte(CRTC_REG_ADDR, 0x0E); // cursor location high == offset high byte
-    // char reg_val = read_byte(CRTC_REG_DATA);
     write_byte(CRTC_REG_DATA, (off & 0xff00) >> 8); 
 
     write_byte(CRTC_REG_ADDR, 0x0F); // cursor location low == offset low byte
-    // reg_val = read_byte(CRTC_REG_DATA);
     write_byte(CRTC_REG_DATA, off & 0x00ff);
 
     return offset;
@@ -122,7 +101,7 @@ offset_t scroll_line(const unsigned short lines){
 
 }
 
-offset_t scroll_adjust(offset_t offset){
+offset_t adjust_screen(offset_t offset){
     // returns the new location of the cursor after scrolling
     dim_t cursor_row = ((offset / 2) / WIDTH);
     dim_t cursor_col = ((offset / 2) % WIDTH);
@@ -160,7 +139,7 @@ offset_t print_chr(const dim_t ch, unsigned char attr, offset_t offset){
         VID_MEM_PTR[offset] = ch;
         VID_MEM_PTR[offset + 1] = attr;
         offset += 2;
-        offset = scroll_adjust(offset); 
+        offset = adjust_screen(offset); 
     }
     else {
 
@@ -197,7 +176,7 @@ offset_t clear(void){
     return 0;
 }
 
-
+// SETS CURSOR TO END OF STR
 offset_t print_str(const char * str, char attr, offset_t offset){
     unsigned short i = 0; // len = 0;
     unsigned char ch = str[i];
@@ -207,7 +186,6 @@ offset_t print_str(const char * str, char attr, offset_t offset){
         ch = str[++i];
     }
 
-    // SET CURSOR
     return set_cursor(offset);
 }
 
