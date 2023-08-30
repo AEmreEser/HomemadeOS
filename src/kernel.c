@@ -2,47 +2,55 @@
 
 #include "../drivers/crtc_vga_driver.h"
 
-void kmain(){
-
-    const volatile char * test_str = "This is a test!\0";
-    print_str_vid_mem(test_str);
-
-    // print_single_chr_coord('A', CL_GREEN_ON_BLACK, 0, 0);
-
-    enable_cursor();
-    // set_cursor(calculate_offset(0,0));
-
+#ifdef DBG
+offset_t print_many_a(offset_t offset){
+    
     short i = 0, j = 0;
-    offset_t offset = calculate_offset(j, i);
-
     for ( j = 0; j < HEIGHT; j++) {
         for ( i = 0; i < WIDTH; i++){
             
             if (i != 10 || j != 10) {
                 offset = print_single_chr('A', CL_GREEN_ON_BLACK, offset);
             }
-            else { // TO DO: print_chr must return the offset for the next character --> else we cannot handle \n fast
-                    // print string will simply be a while loop that checks for valid offset values
+            else {
                 i = -1;
-                j++;
+                j++; // compensate for new line jump
                 offset = print_single_chr('\n', CL_GREEN_ON_BLACK, offset);
             }
         }
     }
+    return offset;
+}
 
-    // TESTING:
-    offset = print_single_chr('x', CL_GREEN_ON_BLACK, offset);
-    offset = print_single_chr('\n', CL_GREEN_ON_BLACK, offset);
+offset_t print_str_times(unsigned char times, const char * str, unsigned char attr, offset_t offset){
 
-    // offset = clear(); // offset 0
+    for (unsigned char i = 0; i < times; i++){
+        offset = print_str(str, attr, offset);
+    }
 
-    offset = print_str("this is a test\n\0", CL_GREEN_ON_BLACK, offset);
-    offset = print_str("\n\0", CL_GREEN_ON_BLACK, offset);
+    return set_cursor(offset);
+}
+#endif
 
+
+
+void kmain(){
+
+    enable_cursor();
+
+    offset_t offset = clear();
+
+
+
+    // // TESTING:
     // offset = print_single_chr('x', CL_GREEN_ON_BLACK, offset);
-    // offset = print_single_chr('x', CL_GREEN_ON_BLACK, offset);
-    // offset = print_single_chr('\n', CL_GREEN_ON_BLACK, offset);
-    // offset = print_single_chr('x', CL_GREEN_ON_BLACK, offset);
+
+    offset = print_str_times(12, ENDL_STR, CL_GREEN_ON_BLACK, offset);
+    offset = print_str_times(40 - 11, SP_STR, CL_GREEN_ON_BLACK, offset);
+    offset = print_str("--BORED & LONELY OS--\n\0", CL_GREEN_ON_BLACK, offset);
+    offset = print_str_times(40 - 4, SP_STR, CL_GREEN_ON_BLACK, offset);
+    offset = print_str("v 0.3\n\0", CL_WHITE_ON_BLACK, offset);
+    offset = print_str("\n                       Copyright: Ahmet Emre Eser - 2023\n\0", CL_WHITE_ON_BLACK, offset);
 
 }
 

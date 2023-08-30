@@ -23,35 +23,39 @@ extern void volatile inline write_dbl_word(const unsigned int port, const unsign
 #define CL_GREEN_ON_BLACK 0x02
 #define CL_WHITE_ON_BLACK 0x0f
 
+#define ENDL_CH '\n'
+#define ENDL_STR "\n\0"
+#define SP_CH ' '
+#define SP_STR " \0"
+
 #define CRTC_REG_DATA 0x3D5
 #define CRTC_REG_ADDR 0x3D4
 
 
 typedef unsigned short offset_t;
-
-
+typedef unsigned char dim_t; // screen dimension types
 
 
 unsigned char * const VID_MEM_PTR = (unsigned char *) (VID_MEM_ADDR);
 
-// no location specification
-volatile void print_str_vid_mem(const volatile char * str){
-// str should be zero terminated
+// // no location specification
+// volatile void print_str_vid_mem(const volatile char * str){
+// // str should be zero terminated
 
-    volatile char ch_iter = *(str);
-    volatile char i = (char) (0);
+//     volatile char ch_iter = *(str);
+//     volatile char i = (char) (0);
 
-    while (ch_iter != '\0'){
-        *((volatile char *) (VID_MEM_PTR + i * 2)) = ch_iter;
-        *((volatile char *) (VID_MEM_PTR + i * 2 + 1)) = CL_GREEN_ON_BLACK; 
-        i++;
-        ch_iter = *(str + i * sizeof(char));
-    }
+//     while (ch_iter != '\0'){
+//         *((volatile char *) (VID_MEM_PTR + i * 2)) = ch_iter;
+//         *((volatile char *) (VID_MEM_PTR + i * 2 + 1)) = CL_GREEN_ON_BLACK; 
+//         i++;
+//         ch_iter = *(str + i * sizeof(char));
+//     }
 
-}
+// }
 
 
-offset_t calculate_offset(unsigned char row, unsigned char col){
+offset_t calculate_offset(dim_t row, dim_t col){
     // RETURNS THE OFFSET IN # OF CHARACTER SLOTS IN VID MEM - NOT NUMBER OF CHARS ON THE SCREEN
     return 2 * ( row * WIDTH + col ); // 2 bytes each char+attr slot in vid mem
 }
@@ -120,8 +124,8 @@ offset_t scroll_line(const unsigned short lines){
 
 offset_t scroll_adjust(offset_t offset){
     // returns the new location of the cursor after scrolling
-    unsigned char cursor_row = ((offset / 2) / WIDTH);
-    unsigned char cursor_col = ((offset / 2) % WIDTH);
+    dim_t cursor_row = ((offset / 2) / WIDTH);
+    dim_t cursor_col = ((offset / 2) % WIDTH);
     offset_t new_offset;
 
     if (cursor_row >= HEIGHT && cursor_col >= WIDTH){ // last character slot
@@ -143,13 +147,13 @@ offset_t scroll_adjust(offset_t offset){
 }
 
 // UTILITY FUNCTION, DOES NOT SET THE CURSOR TO THE END OF THE CURRENT CHARACTER
-offset_t print_chr(const unsigned char ch, unsigned char attr, offset_t offset){
+offset_t print_chr(const dim_t ch, unsigned char attr, offset_t offset){
     // provide any value < 0 for row or column to use the deafult address of the cursor
     if (attr < 0){
         attr = CL_WHITE_ON_BLACK;
     }
 
-    unsigned char cursor_row = (unsigned char) (offset / (WIDTH * 2));
+    dim_t cursor_row = (dim_t) (offset / (WIDTH * 2));
     // unsigned char cursor_col = offset % (WIDTH * 2);
 
     if (ch != '\n'){
@@ -172,16 +176,17 @@ offset_t print_chr(const unsigned char ch, unsigned char attr, offset_t offset){
 }
 
 // SETS CURSOR TO THE NEW CHAR'S POSITION
-offset_t print_single_chr(const unsigned char ch, unsigned char attr, offset_t offset){
+offset_t print_single_chr(const dim_t ch, unsigned char attr, offset_t offset){
     return set_cursor(print_chr(ch, attr, offset));
 }
 
+// ALWAYS RETURNS 0
 offset_t clear(void){
 
     offset_t index_offset = 0;
 
-    for (unsigned char i = 0; i < HEIGHT; i++){
-        for (unsigned char j = 0; j < WIDTH; j++){
+    for (dim_t i = 0; i < HEIGHT; i++){
+        for (dim_t j = 0; j < WIDTH; j++){
             VID_MEM_PTR[index_offset] = 0;
             VID_MEM_PTR[index_offset + 1] = 0;
             index_offset += 2;
@@ -210,11 +215,11 @@ offset_t print_str(const char * str, char attr, offset_t offset){
 
 
 #ifdef DBG
-offset_t print_chr_coord(const unsigned char ch,unsigned char attr, unsigned char row, unsigned char col){
+offset_t print_chr_coord(const unsigned char ch,unsigned char attr, dim_t row, dim_t col){
     return print_chr(ch, attr, calculate_offset(row,col));
 }
 
-offset_t print_single_chr_coord(const unsigned char ch, unsigned char attr, unsigned char row, unsigned char col){
+offset_t print_single_chr_coord(const unsigned char ch, unsigned char attr, dim_t row, dim_t col){
     return set_cursor(print_chr(ch, attr, calculate_offset(row, col)));
 }
 #endif
