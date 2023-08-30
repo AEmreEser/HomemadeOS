@@ -86,15 +86,17 @@ void disable_cursor(void){
     write_byte(CRTC_REG_DATA, reg_val & 0xef); // set bit 5 = disable cursor
 }
 
-void set_cursor(offset_t offset){
-    offset = offset / 2; // vid mem offset to char # offset
+offset_t set_cursor(const offset_t offset){
+    offset_t off = offset / 2; // vid mem offset to char # offset
     write_byte(CRTC_REG_ADDR, 0x0E); // cursor location high == offset high byte
     // char reg_val = read_byte(CRTC_REG_DATA);
-    write_byte(CRTC_REG_DATA, (offset & 0xff00) >> 8); 
+    write_byte(CRTC_REG_DATA, (off & 0xff00) >> 8); 
 
     write_byte(CRTC_REG_ADDR, 0x0F); // cursor location low == offset low byte
     // reg_val = read_byte(CRTC_REG_DATA);
-    write_byte(CRTC_REG_DATA, offset & 0x00ff);
+    write_byte(CRTC_REG_DATA, off & 0x00ff);
+
+    return offset;
 }
 
 offset_t scroll_line(const unsigned short lines){ 
@@ -140,14 +142,15 @@ offset_t scroll_adjust(offset_t offset){
     return new_offset;
 }
 
-offset_t print_chr(const unsigned char ch, char attr, offset_t offset){
+// UTILITY FUNCTION, DOES NOT SET THE CURSOR TO THE END OF THE CURRENT CHARACTER
+offset_t print_chr(const unsigned char ch, unsigned char attr, offset_t offset){
     // provide any value < 0 for row or column to use the deafult address of the cursor
     if (attr < 0){
         attr = CL_WHITE_ON_BLACK;
     }
 
     unsigned char cursor_row = (unsigned char) (offset / (WIDTH * 2));
-    unsigned char cursor_col = offset % (WIDTH * 2);
+    // unsigned char cursor_col = offset % (WIDTH * 2);
 
     if (ch != '\n'){
         VID_MEM_PTR[offset] = ch;
@@ -165,13 +168,12 @@ offset_t print_chr(const unsigned char ch, char attr, offset_t offset){
         }
     }
 
-    set_cursor(offset);
     return offset;
 }
 
-
-offset_t print_chr_coord(const unsigned char ch, char attr, unsigned char row, unsigned char col){
-    return print_chr(ch, attr, calculate_offset(row,col));
+// SETS CURSOR TO THE NEW CHAR'S POSITION
+offset_t print_single_chr(const unsigned char ch, unsigned char attr, offset_t offset){
+    return set_cursor(print_chr(ch, attr, offset));
 }
 
 offset_t clear(void){
@@ -189,5 +191,33 @@ offset_t clear(void){
     set_cursor(0);
     return 0;
 }
+
+
+offset_t print_str(const char * str, char attr, offset_t offset){
+    unsigned short i = 0; // len = 0;
+    unsigned char ch = str[i];
+    while (ch != 0){
+        offset = print_chr(ch, attr, offset);
+        // len++;
+        ch = str[++i];
+    }
+
+    // SET CURSOR
+    return set_cursor(offset);
+}
+
+
+
+
+#ifdef DBG
+offset_t print_chr_coord(const unsigned char ch,unsigned char attr, unsigned char row, unsigned char col){
+    return print_chr(ch, attr, calculate_offset(row,col));
+}
+
+offset_t print_single_chr_coord(const unsigned char ch, unsigned char attr, unsigned char row, unsigned char col){
+    return set_cursor(print_chr(ch, attr, calculate_offset(row, col)));
+}
+#endif
+
 
 #endif
