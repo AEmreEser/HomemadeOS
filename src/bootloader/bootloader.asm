@@ -12,10 +12,10 @@ int 13h ; reset disk device
 
 jmp end_of_include ; jump over bios read disk routine
 
-%include "src/read_disk_sectors.inc"
-%include "src/print_str.inc"
-%include "src/print_hex_bios.inc"
-%include "src/GDT.inc"
+%include "src/bootloader/read_disk_sectors.inc"
+%include "src/bootloader/print_str.inc"
+%include "src/bootloader/print_hex_bios.inc"
+%include "src/bootloader/GDT.inc"
 
 end_of_include:
 
