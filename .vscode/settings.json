@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "crtc_vga_driver.h": "c"
+    }
+}

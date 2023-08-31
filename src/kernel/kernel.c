@@ -1,6 +1,6 @@
 #define DBG
 
-#include "../drivers/crtc_vga_driver.h"
+#include "../../drivers/crtc_vga_driver.h"
 
 #ifdef DBG
 offset_t print_many_a(offset_t offset){

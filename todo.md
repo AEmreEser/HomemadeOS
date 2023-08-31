@@ -17,5 +17,6 @@ $~$
 - 2D GX basic library
     - DRAW BOX around a perimeter function
     - draw shapes functions
+    - print at location functions -- vague description (middle right etc.) and exact description ones (begin at x,y etc.)
 - print hex function for vga text mode
 - print dec function for vga text mode
