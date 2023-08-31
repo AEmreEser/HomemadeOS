@@ -15,6 +15,7 @@ extern void volatile inline write_dbl_word(const unsigned int port, const unsign
 
 #include "port_utils.h"
 
+// VIDEO DEFINITIONS
 #define WIDTH 80 // COLUMNS #
 #define HEIGHT 25 // ROWS #
 #define NUM_CHARS (WIDTH * HEIGHT)

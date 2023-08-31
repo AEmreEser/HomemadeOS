@@ -1,7 +1,8 @@
 # Bored & Lonely OS
  
 Minimal 32 bit operating system for x86 architectures
- 
+
+$~$
  
 ## Features
  
@@ -18,11 +19,15 @@ Minimal 32 bit operating system for x86 architectures
 5. C compiler
 6. USB flasher for live boot
  
- 
+
+$~$
+
 ## Screenshots
 ![OS Banner Page](/screenshots/OS_banner_screen.png)
  
- 
+
+$~$ 
+
 ## Tools/Technologies
 - Qemu
 - C (for kernel)

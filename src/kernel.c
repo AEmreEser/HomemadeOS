@@ -36,11 +36,8 @@ offset_t print_str_times(unsigned char times, const char * str, unsigned char at
 
 void kmain(){
 
-    enable_cursor();
-
     offset_t offset = clear(); 
-    // // TESTING:
-    // offset = print_single_chr('x', CL_GREEN_ON_BLACK, offset);
+    enable_cursor();
 
     offset = print_str_times(12, ENDL_STR, CL_GREEN_ON_BLACK, offset);
     offset = print_str_times(40 - 11, SP_STR, CL_GREEN_ON_BLACK, offset);
@@ -48,8 +45,6 @@ void kmain(){
     offset = print_str_times(40 - 4, SP_STR, CL_GREEN_ON_BLACK, offset);
     offset = print_str("v 0.3\n\0", CL_WHITE_ON_BLACK, offset);
     offset = print_str("\n                       Copyright: Ahmet Emre Eser - 2023\n\0", CL_WHITE_ON_BLACK, offset);
-
-    
 
 }
 
