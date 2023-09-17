@@ -32,8 +32,8 @@ extern void volatile inline write_dbl_word(const unsigned int port, const unsign
 #define CRTC_REG_DATA 0x3D5
 #define CRTC_REG_ADDR 0x3D4
 
-typedef unsigned short offset_t;
-typedef unsigned char dim_t; // dimension types
+typedef uint16_t offset_t;
+typedef uint8_t dim_t; // dimension types
 
 unsigned char * const VID_MEM_PTR = (unsigned char *) (VID_MEM_ADDR);
 
@@ -41,6 +41,7 @@ offset_t calculate_offset(dim_t row, dim_t col){
     // RETURNS THE OFFSET IN # OF CHARACTER SLOTS IN VID MEM - NOT NUMBER OF CHARS ON THE SCREEN
     return 2 * ( row * WIDTH + col ); // 2 bytes each char+attr slot in vid mem
 }
+
 offset_t get_cursor_offset(void){
     // ASSUMING ONE CHAR SIZED CURSOR
     // RETURNS THE OFFSET IN # OF CHARACTER SLOTS IN VID MEM - NOT NUMBER OF CHARS ON THE SCREEN
@@ -127,7 +128,7 @@ offset_t adjust_screen(offset_t offset){
 }
 
 // UTILITY FUNCTION, DOES NOT SET THE CURSOR TO THE END OF THE CURRENT CHARACTER
-offset_t print_chr(const dim_t ch, unsigned char attr, offset_t offset){
+offset_t print_chr(const dim_t ch, uint8_t attr, offset_t offset){
     // provide any value < 0 for row or column to use the deafult address of the cursor
     if (attr < 0){
         attr = CL_WHITE_ON_BLACK;
@@ -160,7 +161,7 @@ offset_t print_single_chr(const dim_t ch, unsigned char attr, offset_t offset){
     return set_cursor(print_chr(ch, attr, offset));
 }
 
-// ALWAYS RETURNS 0
+// ALWAYS RETURNS 0 -- leftmost corner offset
 offset_t clear(void){
 
     offset_t index_offset = 0;
@@ -179,8 +180,8 @@ offset_t clear(void){
 
 // SETS CURSOR TO END OF STR
 offset_t print_str(const char * str, char attr, offset_t offset){
-    unsigned short i = 0; // len = 0;
-    unsigned char ch = str[i];
+    uint16_t i = 0; // len = 0;
+    uint8_t ch = str[i];
     while (ch != 0){
         offset = print_chr(ch, attr, offset);
         // len++;
@@ -190,6 +191,18 @@ offset_t print_str(const char * str, char attr, offset_t offset){
     return set_cursor(offset);
 }
 
+// SET OFFSET TO END OF NUM
+offset_t print_num(uint8_t num, char attr, offset_t offset){
+    char ch;
+    uint8_t div = 100; // uint8_t max 256
+    do {
+        ch = (uint8_t)(num / div ) + '0';
+        offset = print_chr(ch, attr, offset);
+        div = div / 10;
+    } while (div > 0);
+
+    return set_cursor(offset);
+}
 
 
 

@@ -33,7 +33,7 @@ gdt_descriptor:
 ; GDT pointers/offset --> gdt is addressed by offsets
 ; put these in segment regs to address into segments
 CODE_SEG equ gdt_code - gdt_start
-DATA_SEG equ gdt_data - gdt_start
+DATA_SEG equ gdt_data - gdt_start ; 0x10 
 
 
 %endif

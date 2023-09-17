@@ -11,7 +11,8 @@ $~$
 $~$
 
 # NON-IMMEDIATE:
-- Text editor, meaningful only after the filesystem
+- bootstrapping gcc over to the OS
+- Text editor, meaningful only after the filesystem 
 - backspace : need it before we begin the shell
 - some sort of sleep function
 - 2D GX basic library
