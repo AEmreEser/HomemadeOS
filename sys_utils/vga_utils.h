@@ -204,7 +204,18 @@ offset_t print_num(uint8_t num, char attr, offset_t offset){
     return set_cursor(offset);
 }
 
+offset_t print_str_times(uint8_t times, const char * str, uint8_t attr, offset_t offset){
 
+    for (uint8_t i = 0; i < times; i++){
+        offset = print_str(str, attr, offset);
+    }
+
+    return set_cursor(offset);
+}
+
+char get_att(unsigned char foregnd, unsigned char backgnd){
+	return (backgnd << 4) | (foregnd & 0x0F);
+}
 
 #ifdef DBG
 offset_t print_chr_coord(const unsigned char ch,unsigned char attr, dim_t row, dim_t col){

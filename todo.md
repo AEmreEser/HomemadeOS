@@ -21,3 +21,4 @@ $~$
     - print at location functions -- vague description (middle right etc.) and exact description ones (begin at x,y etc.)
 - print hex function for vga text mode
 - print dec function for vga text mode
+- own terminal back-end - smt like bash???

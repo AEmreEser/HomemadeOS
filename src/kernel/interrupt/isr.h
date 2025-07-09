@@ -2,7 +2,7 @@
 #define _INT_HANDLER_H_
 
 #include "../../typedefs.h"
-#include "../../../drivers/print_utils.h"
+#include "../../../sys_utils/vga_utils.h"
 #include "idt.h"
 
 // taken from http://www.osdever.net/bkerndev/index.php
