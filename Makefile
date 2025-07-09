@@ -9,7 +9,7 @@ int_dir=$(kern_dir)/interrupt
 drv_dir=sys_utils
 tools=i686-elf-
 emulator=qemu-system-x86_64
-emu_opt?=-drive file=$(build_dir)/$(img),format=raw,index=0,media=disk;
+emu_opt?=--no-reboot -no-shutdown -d int,cpu_reset -drive file=$(build_dir)/$(img),format=raw,if=ide,index=0,media=disk -boot order=d -machine pc -m 64;
 
 .PHONY: all run rerun rebuild remove
 
@@ -20,7 +20,7 @@ $(build_dir)/$(img): $(build_dir)/bootloader.bin $(build_dir)/kernel.bin
 	truncate -s 1440k $@
 
 $(build_dir)/kernel.bin: $(build_dir)/kernel_head.o $(build_dir)/kernel.o $(build_dir)/interrupts.o
-	i386-elf-ld -s -o $@ -Ttext 0x1000 $^ --oformat binary -nostdlib
+	$(tools)ld -s -o $@ -Ttext 0x1000 $^ --oformat binary -nostdlib
 
 $(build_dir)/kernel_head.o: $(kern_dir)/kernel_head.asm
 	$(asm) $< -f elf -o $@ -i $(kern_dir)/
