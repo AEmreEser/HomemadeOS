@@ -73,7 +73,8 @@ MOV EBP, 0x9000 ; re-initialize stack
 MOV ESP, EBP 
 
 kernel_call: ; never return
-call 0x1000; jump to kernel
+; call 0x1000; jump to kernel
+jmp CODE_SEG:0x1000
  
 jmp $ ; jump forever
 
