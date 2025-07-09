@@ -1,7 +1,0 @@
-#!/bin/bash
-if [ -z "$1" ]; then
-    echo "no filename provided, defaulting to os.img";
-    qemu-system-x86_64  -drive file=build/os.img,format=raw,index=0,media=disk;
-else
-    qemu-system-x86_64 -drive file=build/${1},format=raw,index=0,media=disk;
-fi
