@@ -1,5 +1,0 @@
-https://www.phatcode.net/res/240/files/vgaman.txt
-http://www.osdever.net/FreeVGA/vga/crtcreg.htm#0A
-https://wiki.osdev.org/Text_Mode_Cursor#Get_Cursor_Position
-https://files.osdev.org/mirrors/geezer/osd/graphics/grdemo.c
-https://wiki.osdev.org/VGA_Resources
