@@ -1,7 +1,7 @@
 #ifndef _IDT_H_
 #define _IDT_H_
 
-#include "../../typedefs.h"
+#include "../typedefs.h"
 
 typedef struct __attribute__((packed)) {
 // 32 bit mode: little endian high word: offset, low byte: size 
@@ -35,7 +35,15 @@ typedef struct __attribute__((packed)) {
 #define NUM_IDT 256
 
 // IDT DECLARATIONS:
-IDT_descriptor_t idt_desc;
-IDT_entry_t idt[NUM_IDT];
+extern IDT_descriptor_t idt_desc;
+extern IDT_entry_t idt[NUM_IDT];
+
+// initializes idt[order] with the provided parameters
+void init_idt_entry(IDT_entry_t * const idt, uint8_t order, uint32_t offset_entry, uint16_t selector_entry, uint8_t attr);
+
+void inline volatile load_idt(const IDT_descriptor_t * const desc) {
+    __asm__ volatile("lidt %%eax" : : "a" (desc) );
+}
+
 
 #endif

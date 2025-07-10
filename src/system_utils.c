@@ -1,4 +1,4 @@
-#include <system_utils.h>
+#include "include/utils/system_utils.h"
 
 // returns dest if copy successful, returns NULL if unsuccessful
 unsigned char *memcpy(unsigned char *dest, const unsigned char *src, int count)
@@ -38,7 +38,7 @@ int strlen(const char *str)
 {
 	if (str == NULL) { return -1; }
 
-	int i = 0
+	int i = 0;
 	while(str[i] != '\0') { i++; }
 
 	return i;
@@ -46,8 +46,7 @@ int strlen(const char *str)
 
 // taken from Brandon F. 
 /* We will use this later on for reading from the I/O ports to get data
-*  from devices such as the keyboard. We are using what is called
-*  'inline assembly' in these routines to actually do the work */
+*  from devices such as the keyboard. */
 unsigned char inportb (unsigned short _port)
 {
     unsigned char rv;
@@ -58,8 +57,7 @@ unsigned char inportb (unsigned short _port)
 // taken from Brandon F. 
 /* We will use this to write to I/O ports to send bytes to devices. This
 *  will be used in the next tutorial for changing the textmode cursor
-*  position. Again, we use some inline assembly for the stuff that simply
-*  cannot be done in C */
+*  position. */
 void outportb (unsigned short _port, unsigned char _data)
 {
     __asm__ __volatile__ ("outb %1, %0" : : "dN" (_port), "a" (_data));

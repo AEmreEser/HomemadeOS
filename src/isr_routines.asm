@@ -1,7 +1,7 @@
 %ifndef _ISR_ASM_
 %define _ISR_ASM_
 
-%include "src/bootloader/GDT.inc"
+%include "bootloader/GDT.inc"
 
 [bits 32]
 [extern int_handler] ; ignore the errors squiggles, this works for some reason

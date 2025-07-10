@@ -1,9 +1,4 @@
-# IMMEDIATE:
-1. ~~makefile~~
-    -  ~~should move run, rebuild etc. functions to makefile~~
-2. ~~cross compiler switch: i686-elf~~
-3. ~~NEW MAKEFILE FOR CROSS COMPILER~~
-6. keyboard drivers
+1. keyboard drivers
     - need to learn the PIC & IRQ systems for this!!!
 
 $~$

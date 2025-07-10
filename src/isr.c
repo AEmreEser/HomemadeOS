@@ -1,11 +1,9 @@
-#ifndef _INT_HANDLER_H_
-#define _INT_HANDLER_H_
+#include "include/typedefs.h"
+#include "include/utils/vga_utils.h"
+#include "include/idt/idt.h"
 
-#include "../../typedefs.h"
-#include "../../../sys_utils/vga_utils.h"
-#include "idt.h"
+#include "include/isr/isr.h"
 
-// taken from http://www.osdever.net/bkerndev/index.php
 const char *intr_msg[] = {
     "Division By Zero",
     "Debug",
@@ -55,53 +53,6 @@ void int_handler(int_stack_frame_t sf){
 
 }
 
-// initializes idt[order] with the provided parameters
-void init_idt_entry(IDT_entry_t * const idt, uint8_t order, uint32_t offset_entry, uint16_t selector_entry, uint8_t attr){
-    // 5 primitive moves, implemented this way cause C does not have RVO
-    idt[order].attr = attr;
-    idt[order].offset_entry_high = ((offset_entry & 0xff00) >> 16);
-    idt[order].offset_entry_low = offset_entry & 0xff;
-    idt[order].selector_entry = selector_entry;
-    idt[order].RESERVED = 0;
-}
-
-void inline volatile load_idt(const IDT_descriptor_t * const desc) {
-    __asm__ volatile("lidt %%eax" : : "a" (desc) );
-}
-
-extern void isr0();
-extern void isr1();
-extern void isr2();
-extern void isr3();
-extern void isr4();
-extern void isr5();
-extern void isr6();
-extern void isr7();
-extern void isr8();
-extern void isr9();
-extern void isr10();
-extern void isr11();
-extern void isr12();
-extern void isr13();
-extern void isr14();
-extern void isr15();
-extern void isr16();
-extern void isr17();
-extern void isr18();
-extern void isr19();
-extern void isr20();
-extern void isr21();
-extern void isr22();
-extern void isr23();
-extern void isr24();
-extern void isr25();
-extern void isr26();
-extern void isr27();
-extern void isr28();
-extern void isr29();
-extern void isr30();
-extern void isr31();
-
 void load_isr_32(){
     init_idt_entry(idt, 0, (uint32_t) isr0, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
     init_idt_entry(idt, 1, (uint32_t) isr1, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
@@ -137,5 +88,3 @@ void load_isr_32(){
     init_idt_entry(idt, 31, (uint32_t) isr31, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
 
 }
-
-#endif

@@ -1,41 +1,15 @@
-#ifndef _CRTC_VGA_DRIVERS_H_
-#define _CRTC_VGA_DRIVERS_H_
-
-/* NOTES: 
-    USING VGA
-    VIDEO MEMORY ORGANIZATION: 16 bits per letter: low byte char, high byte attribute/formatting info
-*/
-
-extern unsigned char volatile inline read_byte(const unsigned int port);
-extern unsigned short volatile inline read_word(const unsigned int port);
-extern unsigned int volatile inline read_dbl_word(const unsigned int port);
-extern void volatile inline write_byte(const unsigned int port, const unsigned char data);
-extern void volatile inline write_word(const unsigned int port, const unsigned short data);
-extern void volatile inline write_dbl_word(const unsigned int port, const unsigned int data);
-
-#include "port_utils.h"
-
-// VIDEO DEFINITIONS
-#define WIDTH 80 // COLUMNS #
-#define HEIGHT 25 // ROWS #
-#define NUM_CHARS (WIDTH * HEIGHT)
-#define MAX_OFFSET ((WIDTH - 1) * (HEIGHT - 1) * (2))
-#define VID_MEM_ADDR 0xb8000 // vga text buffer address
-#define CL_GREEN_ON_BLACK 0x02
-#define CL_WHITE_ON_BLACK 0x0f
-
-#define ENDL_CH '\n'
-#define ENDL_STR "\n\0"
-#define SP_CH ' '
-#define SP_STR " \0"
-
-#define CRTC_REG_DATA 0x3D5
-#define CRTC_REG_ADDR 0x3D4
-
-typedef uint16_t offset_t;
-typedef uint8_t dim_t; // dimension types
+#include "include/typedefs.h"
+#include "include/utils/vga_utils.h"
+#include "include/utils/port_utils.h"
 
 unsigned char * const VID_MEM_PTR = (unsigned char *) (VID_MEM_ADDR);
+
+// extern unsigned char volatile inline read_byte(const unsigned int port);
+// extern unsigned short volatile inline read_word(const unsigned int port);
+// extern unsigned int volatile inline read_dbl_word(const unsigned int port);
+// extern void volatile inline write_byte(const unsigned int port, const unsigned char data);
+// extern void volatile inline write_word(const unsigned int port, const unsigned short data);
+// extern void volatile inline write_dbl_word(const unsigned int port, const unsigned int data);
 
 offset_t calculate_offset(dim_t row, dim_t col){
     // RETURNS THE OFFSET IN # OF CHARACTER SLOTS IN VID MEM - NOT NUMBER OF CHARS ON THE SCREEN
@@ -225,7 +199,4 @@ offset_t print_chr_coord(const unsigned char ch,unsigned char attr, dim_t row, d
 offset_t print_single_chr_coord(const unsigned char ch, unsigned char attr, dim_t row, dim_t col){
     return set_cursor(print_chr(ch, attr, calculate_offset(row, col)));
 }
-#endif
-
-
 #endif

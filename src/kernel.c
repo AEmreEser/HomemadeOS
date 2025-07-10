@@ -1,15 +1,14 @@
-#include "../typedefs.h"
-#include "../sys_utils/vga_utils.h"
+#include "include/typedefs.h"
 
-#include "interrupt/isr.h"
-#include "system_utils.h"
+#include "include/utils/vga_utils.h"
+#include "include/isr/isr.h"
+#include "include/utils/system_utils.h"
 
 void kmain(){
 
     offset_t offset = clear(); 
     enable_cursor();
 
-    // TO DO: print to center functions
     offset = print_str_times(12, ENDL_STR, CL_GREEN_ON_BLACK, offset);
     offset = print_str_times(40 - 11, SP_STR, CL_GREEN_ON_BLACK, offset);
     offset = print_str("--BORED & LONELY OS--\n\0", CL_GREEN_ON_BLACK, offset);
@@ -21,7 +20,7 @@ void kmain(){
     // __asm__ __volatile__("int $2");
     // __asm__ __volatile__("int $3");
 
-	for(;;);
+	for(;;); // inf loop without leaving kmain()
 
 }
 
