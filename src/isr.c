@@ -4,7 +4,7 @@
 #include "include/isr/isr.h"
 
 const char *intr_msg[] = {
-    "Division By Zero\n",
+    "Division By Zero" ENDL_STR,
     "Debug" ENDL_STR,
     "Non Maskable Interrupt" ENDL_STR,
     "Breakpoint" ENDL_STR,
@@ -41,14 +41,14 @@ const char *intr_msg[] = {
 void int_handler(int_stack_frame_t sf){
 
     if (sf.intr_number < 32) {
-        offset_t offset = print_str("interrupt:\0", CL_GREEN_ON_BLACK, clear()); //. clears screen and prints interrupt details
+        offset_t offset = print_str("interrupt:\0", CL_GREEN_ON_BLACK, clear()); // clears screen and prints interrupt details
         uint8_t int_num = sf.intr_number;
 
         offset = print_num(int_num, CL_WHITE_ON_BLACK, offset);
         offset = print_str(ENDL_STR, CL_GREEN_ON_BLACK, offset);
 
         offset = print_str(intr_msg[int_num], CL_GREEN_ON_BLACK, offset);
-        offset = print_str("System Halted due to Exception\n\0", CL_WHITE_ON_BLACK, offset);
+        offset = print_str("System Halted due to Exception\n", CL_WHITE_ON_BLACK, offset);
         while(true);
     }
 

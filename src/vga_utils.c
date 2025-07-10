@@ -155,7 +155,7 @@ offset_t clear(void){
 // SETS CURSOR TO END OF STR
 offset_t print_str(const char * str, char attr, offset_t offset){
     uint16_t i = 0; // len = 0;
-    uint8_t ch = str[i];
+    char ch = str[i];
     while (ch != 0){
         offset = print_chr(ch, attr, offset);
         // len++;
@@ -171,6 +171,7 @@ offset_t print_num(uint8_t num, char attr, offset_t offset){
     uint8_t div = 100; // uint8_t max 256
     do {
         ch = (uint8_t)(num / div ) + '0';
+        num %= div;
         offset = print_chr(ch, attr, offset);
         div = div / 10;
     } while (div > 0);
