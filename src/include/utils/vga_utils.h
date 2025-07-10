@@ -16,7 +16,7 @@
 #define CL_WHITE_ON_BLACK 0x0f
 
 #define ENDL_CH '\n'
-#define ENDL_STR "\n\0"
+#define ENDL_STR "\n"
 #define SP_CH ' '
 #define SP_STR " \0"
 

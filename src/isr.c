@@ -1,69 +1,70 @@
 #include "include/typedefs.h"
 #include "include/utils/vga_utils.h"
 #include "include/idt/idt.h"
-
 #include "include/isr/isr.h"
 
 const char *intr_msg[] = {
-    "Division By Zero",
-    "Debug",
-    "Non Maskable Interrupt",
-    "Breakpoint",
-    "Into Detected Overflow",
-    "Out of Bounds",
-    "Invalid Opcode",
-    "No Coprocessor",
-    "Double Fault",
-    "Coprocessor Segment Overrun",
-    "Bad TSS",
-    "Segment Not Present",
-    "Stack Fault",
-    "Protection Fault - General",
-    "Page Fault",
-    "Unknown Interrupt",
-    "Coprocessor Fault",
-    "Alignment Check",
-    "Machine Check",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved",
-    "Reserved"
+    "Division By Zero\n",
+    "Debug" ENDL_STR,
+    "Non Maskable Interrupt" ENDL_STR,
+    "Breakpoint" ENDL_STR,
+    "Into Detected Overflow" ENDL_STR,
+    "Out of Bounds" ENDL_STR,
+    "Invalid Opcode" ENDL_STR,
+    "No Coprocessor" ENDL_STR,
+    "Double Fault" ENDL_STR,
+    "Coprocessor Segment Overrun" ENDL_STR,
+    "Bad TSS" ENDL_STR,
+    "Segment Not Present" ENDL_STR,
+    "Stack Fault" ENDL_STR,
+    "Protection Fault - General" ENDL_STR,
+    "Page Fault" ENDL_STR,
+    "Unknown Interrupt" ENDL_STR,
+    "Coprocessor Fault" ENDL_STR,
+    "Alignment Check" ENDL_STR,
+    "Machine Check" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
+    "Reserved" ENDL_STR,
 };
 
 void int_handler(int_stack_frame_t sf){
 
     if (sf.intr_number < 32) {
-        offset_t offset = ("interrupt: ", CL_GREEN_ON_BLACK, clear()); //. clears screen and prints interrupt details
+        offset_t offset = print_str("interrupt:\0", CL_GREEN_ON_BLACK, clear()); //. clears screen and prints interrupt details
         uint8_t int_num = sf.intr_number;
 
         offset = print_num(int_num, CL_WHITE_ON_BLACK, offset);
-        offset = print_chr(ENDL_CH, CL_GREEN_ON_BLACK, offset);
+        offset = print_str(ENDL_STR, CL_GREEN_ON_BLACK, offset);
 
         offset = print_str(intr_msg[int_num], CL_GREEN_ON_BLACK, offset);
+        offset = print_str("System Halted due to Exception\n\0", CL_WHITE_ON_BLACK, offset);
+        while(true);
     }
 
 }
 
 void load_isr_32(){
-    init_idt_entry(idt, 0, (uint32_t) isr0, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 1, (uint32_t) isr1, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 2, (uint32_t) isr2, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 3, (uint32_t) isr3, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 4, (uint32_t) isr4, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 5, (uint32_t) isr5, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 6, (uint32_t) isr6, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 7, (uint32_t) isr7, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 8, (uint32_t) isr8, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 9, (uint32_t) isr9, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 0,  (uint32_t) isr0,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 1,  (uint32_t) isr1,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 2,  (uint32_t) isr2,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 3,  (uint32_t) isr3,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 4,  (uint32_t) isr4,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 5,  (uint32_t) isr5,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 6,  (uint32_t) isr6,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 7,  (uint32_t) isr7,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 8,  (uint32_t) isr8,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 9,  (uint32_t) isr9,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
     init_idt_entry(idt, 10, (uint32_t) isr10, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
     init_idt_entry(idt, 11, (uint32_t) isr11, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
     init_idt_entry(idt, 12, (uint32_t) isr12, SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);

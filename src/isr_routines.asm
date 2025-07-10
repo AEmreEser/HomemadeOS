@@ -18,14 +18,20 @@ isr_save_state: ; stack should already contain the error code
     mov es, ax
     mov fs, ax
     mov gs, ax
+    ; the interrupt call should push these already
+    ; mov eax, esp ; push the stack ptr
+    ; push eax
 handler_call:
-    call int_handler
+    mov eax, int_handler
+    call eax ; preserves the eip register???
 isr_restore_state:
+    pop eax
     pop gs
     pop fs
     pop es
     pop ds
     popa
+    add esp, 8 ; cleans error code and isr num from stack
     sti  ; re-enable interrupts
     iret ; make sure the vm flag is 0 -- ELSE RETURNS TO VIRT MODE!!!!
 
@@ -71,8 +77,8 @@ isr0:
 
 isr1:
     cli
-    push byte 0
-    push byte 1
+    push byte 0 ; dummy error code
+    push byte 1 ; interrupt number
     jmp isr_save_state
 
 isr2:
@@ -113,7 +119,7 @@ isr7:
 
 isr8:
     cli
-    push byte 8
+    push byte 8 ; this one already pushes its own error code to the stack
     jmp isr_save_state
 
 isr9:
@@ -161,7 +167,7 @@ isr16:
 
 isr17:
     cli
-    push byte 0
+    ; push byte 0 ; this one pushes an err code automatically too
     push byte 17
     jmp isr_save_state
 
