@@ -5,7 +5,7 @@ img:=$(bd)/os.img
 
 emu:=qemu-system-x86_64
 eflags:=--no-reboot -no-shutdown -d int,cpu_reset -drive file=$(img),format=raw,if=ide,index=0,media=disk -boot order=d -machine pc;
-
+# --no-reboot -no-shutdown 
 # IMPORTANT: make sure the assignment uses '=' and nothing else!!!
 objs=$(wildcard $(bd)/*.o)
 bootbin:=$(bd)/bootloader.bin
@@ -23,13 +23,13 @@ $(img): $(bins) | $(bd)
 	cat $^ > $@
 	truncate -s 1440k $@
 
-$(bootbin): 
+$(bootbin): $(wildcard src/bootloader/*)
 	@make -C src/bootloader -f boot.make 
 
-$(kernbin):
+$(kernbin): $(wildcard src/*)
 	@make -C src -f kernel.make 
 
-clean: $(bd)
+clean: | $(bd)
 	-rm $(wildcard $(bd)/*)
 
 $(bd):
