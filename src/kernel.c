@@ -1,7 +1,8 @@
 #include "include/typedefs.h"
 
 #include "include/utils/vga_utils.h"
-#include "include/isr/isr.h"
+#include "include/isr_irq/isr.h"
+#include "include/isr_irq/irq.h"
 #include "include/idt/idt.h"
 #include "include/utils/system_utils.h"
 
@@ -18,12 +19,14 @@ void kmain(){
     offset = print_str("\n                       Copyright: Ahmet Emre Eser - 2023 - 2025\n\0", CL_WHITE_ON_BLACK, offset);
 
     install_idt();
+    install_irq();
 
     // __asm__ __volatile__("int $2");
     // __asm__ __volatile__("int $3");
 
-    volatile char a = 32 / 0;
-    offset = print_num(a, CL_GREEN_ON_BLACK, offset);
+
+    // volatile char a = 32 / 0;
+    // offset = print_num(a, CL_GREEN_ON_BLACK, offset);
 
 	for(;;); // inf loop without leaving kmain()
 

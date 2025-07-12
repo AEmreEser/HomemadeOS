@@ -1,5 +1,5 @@
 #include "include/idt/idt.h"
-#include "include/isr/isr.h" // load_isr_32()
+#include "include/isr_irq/isr.h" // load_isr_32()
 #include "include/utils/system_utils.h"
 
 IDT_descriptor_t idt_desc;

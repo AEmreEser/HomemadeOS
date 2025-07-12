@@ -21,7 +21,7 @@ isr_save_state: ; stack should already contain the error code
     ; the interrupt call should push these already
     ; mov eax, esp ; push the stack ptr
     ; push eax
-handler_call:
+isr_handler_call:
     mov eax, int_handler
     call eax ; preserves the eip register???
 isr_restore_state:
@@ -254,5 +254,148 @@ isr31:
     push byte 0
     push byte 31
     jmp isr_save_state
+
+global irq0
+global irq1
+global irq2
+global irq3
+global irq4
+global irq5
+global irq6
+global irq7
+global irq8
+global irq9
+global irq10
+global irq11
+global irq12
+global irq13
+global irq14
+global irq15
+
+[extern irq_handler]
+
+irq_save_state:
+    pusha
+    push ds
+    push es
+    push fs
+    push gs
+    mov ax, DATA_SEG
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov eax, esp
+    push eax
+irq_handler_call:
+    mov eax, irq_handler
+    call eax
+irq_restore_state:
+    pop eax
+    pop gs
+    pop fs
+    pop es
+    pop ds
+    popa
+    add esp, 8
+    iret
+    
+irq0:
+    cli
+    push byte 0
+    push byte 32
+    jmp irq_save_state
+
+irq1:
+    cli
+    push byte 0
+    push byte 33
+    jmp irq_save_state
+
+irq2:
+    cli
+    push byte 0
+    push byte 34
+    jmp irq_save_state
+
+irq3:
+    cli
+    push byte 0
+    push byte 35
+    jmp irq_save_state
+
+irq4:
+    cli
+    push byte 0
+    push byte 36
+    jmp irq_save_state
+
+irq5:
+    cli
+    push byte 0
+    push byte 37
+    jmp irq_save_state
+
+irq6:
+    cli
+    push byte 0
+    push byte 38
+    jmp irq_save_state
+
+irq7:
+    cli
+    push byte 0
+    push byte 39
+    jmp irq_save_state
+
+irq8:
+    cli
+    push byte 0
+    push byte 40
+    jmp irq_save_state
+
+irq9:
+    cli
+    push byte 0
+    push byte 41
+    jmp irq_save_state
+
+irq10:
+    cli
+    push byte 0
+    push byte 42
+    jmp irq_save_state
+
+irq11:
+    cli
+    push byte 0
+    push byte 43
+    jmp irq_save_state
+
+irq12:
+    cli
+    push byte 0
+    push byte 44
+    jmp irq_save_state
+
+irq13:
+    cli
+    push byte 0
+    push byte 45
+    jmp irq_save_state
+
+irq14:
+    cli
+    push byte 0
+    push byte 46
+    jmp irq_save_state
+
+irq15:
+    cli
+    push byte 0
+    push byte 47
+    jmp irq_save_state
+
+
 
 %endif

@@ -1,7 +1,7 @@
 #include "include/typedefs.h"
 #include "include/utils/vga_utils.h"
 #include "include/idt/idt.h"
-#include "include/isr/isr.h"
+#include "include/isr_irq/isr.h"
 
 const char *intr_msg[] = {
     "Division By Zero" ENDL_STR,

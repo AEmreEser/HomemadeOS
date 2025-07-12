@@ -5,10 +5,10 @@ inc:=./include
 kernel?=kernel
 
 cflags:=-I ./include -ffreestanding -nostdlib -nostartfiles -fno-stack-protector -fno-pie
-src:=$(kernel).c system_utils.c isr.c vga_utils.c idt.c
+src:=$(kernel).c system_utils.c isr.c vga_utils.c idt.c irq.c
 obj:=$(patsubst %.o, $(bd)/%.o, $(src:.c=.o))
 
-asms:=$(kernel)_head.asm isr_routines.asm
+asms:=$(kernel)_head.asm isr_irq_routines.asm
 asm_obj:=$(patsubst %.asm, $(bd)/%.o, $(asms))
 kernbin:=$(bd)/$(kernel).bin
 

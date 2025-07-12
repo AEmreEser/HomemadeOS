@@ -1,5 +1,5 @@
-#ifndef _INT_HANDLER_H_
-#define _INT_HANDLER_H_
+#ifndef _ISR_H_
+#define _ISR_H_
 
 #include "../typedefs.h"
 #include "../utils/vga_utils.h"
