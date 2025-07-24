@@ -5,10 +5,14 @@
 #include "include/isr_irq/irq.h"
 #include "include/idt/idt.h"
 #include "include/utils/system_utils.h"
+#include "include/timer/timer.h"
+
+extern offset_t offset;
 
 void kmain(){
 
-    offset_t offset = clear(); 
+    // offset_t offset = clear(); 
+    offset = clear(); 
     enable_cursor();
 
     offset = print_str_times(12, ENDL_STR, CL_GREEN_ON_BLACK, offset);
@@ -20,6 +24,9 @@ void kmain(){
 
     install_idt();
     install_irq();
+    install_timer_irq();
+
+    int_enable();
 
     // __asm__ __volatile__("int $2");
     // __asm__ __volatile__("int $3");

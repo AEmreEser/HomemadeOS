@@ -4,7 +4,7 @@ bd:=build
 img:=$(bd)/os.img
 
 emu:=qemu-system-x86_64
-eflags:=--no-reboot -no-shutdown -d int,cpu_reset -drive file=$(img),format=raw,if=ide,index=0,media=disk -boot order=d -machine pc;
+eflags:=-d int,cpu_reset -drive file=$(img),format=raw,if=ide,index=0,media=disk -boot order=d -machine pc;
 # --no-reboot -no-shutdown 
 # IMPORTANT: make sure the assignment uses '=' and nothing else!!!
 objs=$(wildcard $(bd)/*.o)
@@ -15,6 +15,9 @@ bins:=$(bootbin) $(kernbin) # the order here matters !!! bootloader must come fi
 .PHONY: all clean run
 
 all: $(img)
+
+debug: $(img)
+	$(emu) $(eflags) --no-reboot -no-shutdown 
 
 run: $(img)
 	$(emu) $(eflags)

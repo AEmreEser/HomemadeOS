@@ -44,16 +44,16 @@ void remap_irq(void)
 void install_irq(){
     remap_irq();
 
-    init_idt_entry(idt, 32,  (uint32_t) irq0,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 33,  (uint32_t) irq1,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 34,  (uint32_t) irq2,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 35,  (uint32_t) irq3,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 36,  (uint32_t) irq4,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 37,  (uint32_t) irq5,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 38,  (uint32_t) irq6,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 39,  (uint32_t) irq7,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 40,  (uint32_t) irq8,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
-    init_idt_entry(idt, 41,  (uint32_t) irq9,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 32,  (uint32_t) irq0,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 33,  (uint32_t) irq1,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 34,  (uint32_t) irq2,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 35,  (uint32_t) irq3,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 36,  (uint32_t) irq4,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 37,  (uint32_t) irq5,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 38,  (uint32_t) irq6,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 39,  (uint32_t) irq7,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 40,  (uint32_t) irq8,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
+    init_idt_entry(idt, 41,  (uint32_t) irq9,   SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
     init_idt_entry(idt, 42,  (uint32_t) irq10,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
     init_idt_entry(idt, 43,  (uint32_t) irq11,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
     init_idt_entry(idt, 44,  (uint32_t) irq12,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
@@ -61,6 +61,9 @@ void install_irq(){
     init_idt_entry(idt, 46,  (uint32_t) irq14,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
     init_idt_entry(idt, 47,  (uint32_t) irq15,  SELECTOR_KERNEL_CODE_SEGMENT, ATTR_INT_GATE_32);
 
+}
+
+void int_enable(void){
     __asm__ __volatile__ ("sti"); // officially enable interrupts
 }
 

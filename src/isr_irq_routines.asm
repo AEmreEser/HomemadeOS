@@ -7,7 +7,7 @@
 [extern int_handler] ; ignore the errors squiggles, this works for some reason
 
 ; following routines taken from (and slightly modified by me): http://www.osdever.net/bkerndev/index.php
-isr_save_state: ; stack should already contain the error code
+isr_save_state: ; stack should already contain the error code pusha
     pusha
     push ds
     push es
@@ -24,8 +24,8 @@ isr_save_state: ; stack should already contain the error code
 isr_handler_call:
     mov eax, int_handler
     call eax ; preserves the eip register???
+    add esp, 4 ; clean the argument
 isr_restore_state:
-    pop eax
     pop gs
     pop fs
     pop es

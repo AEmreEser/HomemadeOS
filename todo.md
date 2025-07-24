@@ -1,5 +1,4 @@
 1. keyboard drivers
-    - need to learn the PIC & IRQ systems for this!!!
 
 $~$
 
@@ -7,6 +6,8 @@ $~$
 
 # NON-IMMEDIATE:
 - bootstrapping gcc over to the OS
+- string library!!!!
+- proper vga functions (seriously, what is this mess?)
 - Text editor, meaningful only after the filesystem 
 - backspace : need it before we begin the shell
 - some sort of sleep function

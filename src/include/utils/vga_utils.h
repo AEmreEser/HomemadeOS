@@ -26,6 +26,8 @@
 typedef uint16_t offset_t;
 typedef uint8_t dim_t; // dimension types
 
+extern offset_t offset;
+
 extern unsigned char * const VID_MEM_PTR; //  = (unsigned char *) (VID_MEM_ADDR);
 
 offset_t calculate_offset(dim_t row, dim_t col);
@@ -50,6 +52,10 @@ offset_t print_single_chr(const dim_t ch, unsigned char attr, offset_t offset);
 
 // ALWAYS RETURNS 0 -- leftmost corner offset
 offset_t clear(void);
+
+offset_t clear_line(dim_t line);
+
+offset_t clear_current_line(void);
 
 // SETS CURSOR TO END OF STR
 offset_t print_str(const char * str, char attr, offset_t offset);

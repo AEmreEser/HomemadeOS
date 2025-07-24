@@ -34,6 +34,8 @@ void remap_irq(void);
 
 void install_irq();
 
+void int_enable(void);
+
 void irq_handler(int_stack_frame_t * sf);
 
 #endif

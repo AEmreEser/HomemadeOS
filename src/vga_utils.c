@@ -4,6 +4,8 @@
 
 unsigned char * const VID_MEM_PTR = (unsigned char *) (VID_MEM_ADDR);
 
+offset_t offset;
+
 // extern unsigned char volatile inline read_byte(const unsigned int port);
 // extern unsigned short volatile inline read_word(const unsigned int port);
 // extern unsigned int volatile inline read_dbl_word(const unsigned int port);
