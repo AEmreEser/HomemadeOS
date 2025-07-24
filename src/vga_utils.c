@@ -102,7 +102,7 @@ offset_t adjust_screen(offset_t offset){
 }
 
 // UTILITY FUNCTION, DOES NOT SET THE CURSOR TO THE END OF THE CURRENT CHARACTER
-offset_t print_chr(const dim_t ch, uint8_t attr, offset_t offset){
+offset_t util_print_chr(const dim_t ch, uint8_t attr, offset_t offset){
     // provide any value < 0 for row or column to use the deafult address of the cursor
     if (attr < 0){
         attr = CL_WHITE_ON_BLACK;
@@ -132,7 +132,7 @@ offset_t print_chr(const dim_t ch, uint8_t attr, offset_t offset){
 
 // SETS CURSOR TO THE NEW CHAR'S POSITION
 offset_t print_single_chr(const dim_t ch, unsigned char attr, offset_t offset){
-    return set_cursor(print_chr(ch, attr, offset));
+    return set_cursor(util_print_chr(ch, attr, offset));
 }
 
 // ALWAYS RETURNS 0 -- leftmost corner offset
@@ -157,7 +157,7 @@ offset_t print_str(const char * str, char attr, offset_t offset){
     uint16_t i = 0; // len = 0;
     char ch = str[i];
     while (ch != 0){
-        offset = print_chr(ch, attr, offset);
+        offset = util_print_chr(ch, attr, offset);
         // len++;
         ch = str[++i];
     }
@@ -172,7 +172,7 @@ offset_t print_num(uint8_t num, char attr, offset_t offset){
     do {
         ch = (uint8_t)(num / div ) + '0';
         num %= div;
-        offset = print_chr(ch, attr, offset);
+        offset = util_print_chr(ch, attr, offset);
         div = div / 10;
     } while (div > 0);
 
@@ -194,10 +194,10 @@ char get_att(unsigned char foregnd, unsigned char backgnd){
 
 #ifdef DBG
 offset_t print_chr_coord(const unsigned char ch,unsigned char attr, dim_t row, dim_t col){
-    return print_chr(ch, attr, calculate_offset(row,col));
+    return util_print_chr(ch, attr, calculate_offset(row,col));
 }
 
 offset_t print_single_chr_coord(const unsigned char ch, unsigned char attr, dim_t row, dim_t col){
-    return set_cursor(print_chr(ch, attr, calculate_offset(row, col)));
+    return set_cursor(util_print_chr(ch, attr, calculate_offset(row, col)));
 }
 #endif
