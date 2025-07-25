@@ -104,7 +104,7 @@ offset_t adjust_screen(offset_t offset){
 }
 
 // UTILITY FUNCTION, DOES NOT SET THE CURSOR TO THE END OF THE CURRENT CHARACTER
-offset_t util_print_chr(const dim_t ch, uint8_t attr, offset_t offset){
+offset_t util_print_chr(unsigned char ch, uint8_t attr, offset_t offset){
     // provide any value < 0 for row or column to use the deafult address of the cursor
     if (attr < 0){
         attr = CL_WHITE_ON_BLACK;
@@ -133,7 +133,7 @@ offset_t util_print_chr(const dim_t ch, uint8_t attr, offset_t offset){
 }
 
 // SETS CURSOR TO THE NEW CHAR'S POSITION
-offset_t print_single_chr(const dim_t ch, unsigned char attr, offset_t offset){
+offset_t print_single_chr(unsigned char ch, unsigned char attr, offset_t offset){
     return set_cursor(util_print_chr(ch, attr, offset));
 }
 

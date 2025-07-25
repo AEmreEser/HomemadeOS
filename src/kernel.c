@@ -6,6 +6,7 @@
 #include "include/idt/idt.h"
 #include "include/utils/system_utils.h"
 #include "include/timer/timer.h"
+#include "include/kbd/kbd.h"
 
 extern offset_t offset;
 
@@ -25,12 +26,13 @@ void kmain(){
     install_idt();
     install_irq();
     install_timer_irq();
+    install_kbd_irq();
 
     int_enable();
 
-    // __asm__ __volatile__("int $2");
-    // __asm__ __volatile__("int $3");
-
+    delay(500);
+    offset = clear();
+    enable_cursor();
 
     // volatile char a = 32 / 0;
     // offset = print_num(a, CL_GREEN_ON_BLACK, offset);

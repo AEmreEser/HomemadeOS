@@ -8,7 +8,7 @@
 #define PIT_CHANNEL0 0x40
 #define PIT_COMMAND  0x43
 #define PIT_FREQ     1193182
-#define PIT_IRQ_HZ   100 // fire 100 times per second
+#define PIT_IRQ_HZ   1 // fire 100 times per second
 
 int uptime_counter = 0; // counts total number of ticks
 
@@ -30,9 +30,9 @@ void timer_int_handler(int_stack_frame_t * sf){
     static int secs = 0;
 
     if (uptime_counter % 18 == 0){
-        offset = clear();
-        offset = print_str("Seconds = ", CL_GREEN_ON_BLACK, offset);
-        offset = print_num((uint8_t) secs++, CL_WHITE_ON_BLACK, offset);
+        // offset = clear();
+        // offset = print_str("Seconds = ", CL_GREEN_ON_BLACK, offset);
+        // offset = print_num((uint8_t) secs++, CL_WHITE_ON_BLACK, offset);
     }
 
     outportb(0x20, 0x20); // end of interrupt
@@ -40,7 +40,6 @@ void timer_int_handler(int_stack_frame_t * sf){
 
 void install_timer_irq(void){
     install_single_irq(0, timer_int_handler);
-    offset = print_str("debug print\n", CL_GREEN_ON_BLACK, offset);
     pit_init();
 }
 

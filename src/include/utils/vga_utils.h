@@ -44,11 +44,8 @@ offset_t scroll_line(const unsigned short lines);
 
 offset_t adjust_screen(offset_t offset);
 
-// UTILITY FUNCTION, DOES NOT SET THE CURSOR TO THE END OF THE CURRENT CHARACTER
-offset_t util_print_chr(const dim_t ch, uint8_t attr, offset_t offset);
-
 // SETS CURSOR TO THE NEW CHAR'S POSITION
-offset_t print_single_chr(const dim_t ch, unsigned char attr, offset_t offset);
+offset_t print_single_chr(unsigned char ch, unsigned char attr, offset_t offset);
 
 // ALWAYS RETURNS 0 -- leftmost corner offset
 offset_t clear(void);
