@@ -8,11 +8,11 @@
 
 ; following routines taken from (and slightly modified by me): http://www.osdever.net/bkerndev/index.php
 isr_save_state: ; stack should already contain the error code pusha
-    pusha
     push ds
     push es
     push fs
     push gs
+    pusha
     mov ax, DATA_SEG
     mov ds, ax
     mov es, ax
@@ -26,11 +26,11 @@ isr_handler_call:
     call eax ; preserves the eip register???
     add esp, 4 ; clean the argument
 isr_restore_state:
+    popa
     pop gs
     pop fs
     pop es
     pop ds
-    popa
     add esp, 8 ; cleans error code and isr num from stack
     sti  ; re-enable interrupts
     iret ; make sure the vm flag is 0 -- ELSE RETURNS TO VIRT MODE!!!!
